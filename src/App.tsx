@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { FormConfig } from "./interfaces";
+import { forms } from "./formData";
+import GenericForm from "./GenericForm";
+import Stepper from "./components/Stepper/Stepper";
+import { useState } from "react";
 
 function App() {
+  const arrayOfForms: FormConfig[] = forms;
+  const [activeStepIndex, setActiveStepIndex] = useState(0);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Stepper numberOfPages={3} activeStepIndex={activeStepIndex} />
+      {arrayOfForms.map((form: FormConfig) => {
+        return (
+          <GenericForm
+            key={form.name}
+            config={form}
+            activeStepIndex={activeStepIndex}
+            setActiveStepIndex={setActiveStepIndex}
+          />
+        );
+      })}
     </div>
   );
 }
